@@ -1,0 +1,14 @@
+inputSet:
+  name: Build_rh_wbcode_1759177747442-pr-trigger-input-set
+  identifier: Build_rh_wbcode_1759177747442prtriggerinputset
+  orgIdentifier: default
+  projectIdentifier: rh_sm_infra
+  pipeline:
+    identifier: Build_rh_wbcode_1759177747442
+    properties:
+      ci:
+        codebase:
+          build:
+            type: PR
+            spec:
+              number: <+trigger.prNumber>
