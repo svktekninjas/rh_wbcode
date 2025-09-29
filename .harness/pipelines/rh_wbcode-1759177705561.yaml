@@ -18,7 +18,14 @@ pipeline:
                   identifier: Echo_Welcome_Message
                   spec:
                     shell: Sh
-                    command: echo "Welcome to Harness CI"
+                    command: |
+                      echo "Welcome to Harness CI"
+                      echo "Build Type: <+codebase.build.type>"
+                      if [ "<+codebase.build.type>" = "PR" ]; then
+                        echo "PR Number: <+codebase.prNumber>"
+                      else
+                        echo "Branch: <+codebase.branch>"
+                      fi
           platform:
             os: Linux
             arch: Amd64
