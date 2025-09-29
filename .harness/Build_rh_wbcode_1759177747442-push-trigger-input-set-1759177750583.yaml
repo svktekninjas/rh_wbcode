@@ -1,0 +1,14 @@
+inputSet:
+  name: Build_rh_wbcode_1759177747442-push-trigger-input-set
+  identifier: Build_rh_wbcode_1759177747442pushtriggerinputset
+  orgIdentifier: default
+  projectIdentifier: rh_sm_infra
+  pipeline:
+    identifier: Build_rh_wbcode_1759177747442
+    properties:
+      ci:
+        codebase:
+          build:
+            type: branch
+            spec:
+              branch: <+trigger.branch>
