@@ -46,6 +46,11 @@ pipeline:
                   identifier: SonarQube_Scan
                   spec:
                     shell: Bash
+                    envVariables:
+                      SONAR_PROJECT_KEY: <+variable.SONAR_PROJECT_KEY>
+                      SONAR_ORGANIZATION: <+variable.SONAR_ORGANIZATION>
+                      SONAR_HOST_URL: <+variable.SONAR_HOST_URL>
+                      SONAR_TOKEN: <+secrets.getValue("SONAR_TOKEN")>
                     command: |
                       # Install SonarScanner
                       export SONAR_SCANNER_VERSION=7.2.0.5079
@@ -56,11 +61,11 @@ pipeline:
                       
                       # Run SonarQube scan
                       sonar-scanner \
-                        -Dsonar.projectKey=<+variable.SONAR_PROJECT_KEY> \
-                        -Dsonar.organization=<+variable.SONAR_ORGANIZATION> \
+                        -Dsonar.projectKey=$SONAR_PROJECT_KEY \
+                        -Dsonar.organization=$SONAR_ORGANIZATION \
                         -Dsonar.sources=code \
-                        -Dsonar.host.url=<+variable.SONAR_HOST_URL> \
-                        -Dsonar.token=<+secrets.getValue("SONAR_TOKEN")> \
+                        -Dsonar.host.url=$SONAR_HOST_URL \
+                        -Dsonar.token=$SONAR_TOKEN \
                         -Dsonar.exclusions=**/node_modules/**,**/target/**,**/*.test.js,**/*.spec.js
           platform:
             os: Linux
