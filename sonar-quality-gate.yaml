@@ -1,0 +1,119 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: sonar-quality-gate-config
+  namespace: default
+data:
+  quality-gate.json: |
+    {
+      "name": "Service Mesh Workshop Gate",
+      "conditions": [
+        {
+          "metric": "coverage",
+          "op": "LT",
+          "error": "60"
+        },
+        {
+          "metric": "new_coverage",
+          "op": "LT", 
+          "error": "70"
+        },
+        {
+          "metric": "security_hotspots_reviewed",
+          "op": "LT",
+          "error": "100"
+        },
+        {
+          "metric": "security_rating",
+          "op": "GT",
+          "error": "1"
+        },
+        {
+          "metric": "new_security_issues",
+          "op": "GT",
+          "error": "0"
+        },
+        {
+          "metric": "reliability_rating",
+          "op": "GT",
+          "error": "2"
+        },
+        {
+          "metric": "new_bugs",
+          "op": "GT",
+          "error": "0"
+        },
+        {
+          "metric": "blocker_violations",
+          "op": "GT",
+          "error": "0"
+        },
+        {
+          "metric": "sqale_rating",
+          "op": "GT",
+          "error": "2"
+        },
+        {
+          "metric": "sqale_debt_ratio",
+          "op": "GT",
+          "error": "10"
+        },
+        {
+          "metric": "new_technical_debt",
+          "op": "GT",
+          "error": "5"
+        },
+        {
+          "metric": "duplicated_lines_density",
+          "op": "GT",
+          "error": "5"
+        },
+        {
+          "metric": "new_duplicated_lines_density",
+          "op": "GT",
+          "error": "3"
+        },
+        {
+          "metric": "complexity",
+          "op": "GT",
+          "error": "15"
+        },
+        {
+          "metric": "vulnerabilities",
+          "op": "GT",
+          "error": "0"
+        }
+      ]
+    }
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: sonar-project-config
+  namespace: default
+data:
+  sonar-project.properties: |
+    # Project identification
+    sonar.projectKey=rh-service-mesh-workshop
+    sonar.projectName=Red Hat Service Mesh Workshop
+    sonar.projectVersion=1.0
+    
+    # Source code
+    sonar.sources=code
+    sonar.exclusions=**/node_modules/**,**/target/**,**/*.test.js,**/*.spec.js,**/test/**
+    
+    # Language specific settings
+    sonar.javascript.lcov.reportPaths=coverage/lcov.info
+    sonar.java.source=1.8
+    sonar.java.target=1.8
+    sonar.java.binaries=code/userprofile/target/classes
+    
+    # Quality gate
+    sonar.qualitygate.wait=true
+    
+    # Workshop specific - allow some issues for educational purposes
+    sonar.issue.ignore.multicriteria=e1,e2
+    sonar.issue.ignore.multicriteria.e1.ruleKey=javascript:S1481
+    sonar.issue.ignore.multicriteria.e1.resourceKey=**/*.js
+    sonar.issue.ignore.multicriteria.e2.ruleKey=java:S1481
+    sonar.issue.ignore.multicriteria.e2.resourceKey=**/*.java
