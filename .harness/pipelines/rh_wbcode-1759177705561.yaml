@@ -57,8 +57,7 @@ pipeline:
                       # Copy sonar properties file to working directory
                       cp .harness/properties/sonar-project.properties ./sonar-project.properties
                       
-                      # Replace token placeholder with actual value
-                      sed -i "s|<+secrets.getValue(\"SONAR_TOKEN\")>|<+secrets.getValue(\"SONAR_TOKEN\")|g" sonar-project.properties
+
                       
                       # Run SonarQube scan
                       sonar-scanner
